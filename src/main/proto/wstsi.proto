@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.gn";
+option java_outer_classname = "Wstsi";
+option objc_class_prefix = "HLW";
+
+package br.com.gn;
+
+service WstsiService {
+  rpc send (WstsiRequest) returns (WstsiReply) {}
+}
+
+message WstsiRequest {
+  string name = 1;
+}
+
+message WstsiReply {
+  string message = 1;
+}
