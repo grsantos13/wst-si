@@ -1,0 +1,31 @@
+syntax = "proto3";
+import "shared.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "ShippingInstructions";
+
+package br.com.gn;
+
+service SendShippingInstructionsService {
+  rpc send (ShippingInstructionsRequest) returns (ShippingInstructionsResponse) {}
+}
+
+service ReadShippingInstructionsService {
+  rpc sent (SentShippingInstructionsRequest) returns (ShippingInstructionsResponse) {}
+}
+
+message ShippingInstructionsRequest {
+  string orderNumber = 1;
+  bool manufacturerIsExporter = 2;
+  string freightForwarder = 3;
+  string originPort = 4;
+  string destinationPort = 5;
+}
+
+message ShippingInstructionsResponse {
+  bool sent = 1;
+}
+
+message SentShippingInstructionsRequest {
+  string orderNumber = 1;
+}
