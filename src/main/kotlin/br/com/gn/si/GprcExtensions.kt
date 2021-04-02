@@ -4,6 +4,7 @@ import br.com.gn.OrderResponse
 import br.com.gn.PaymentTerms
 import br.com.gn.ShippingInstructionsRequest
 import br.com.gn.utils.toBigDecimal
+import br.com.gn.utils.toLocalDate
 
 fun OrderResponse.toModel(
     siRequest: ShippingInstructionsRequest
@@ -18,6 +19,12 @@ fun OrderResponse.toModel(
         )
         else -> Manufacturer(manufacturerConfirmed = siRequest.manufacturerIsExporter)
     }
+
+    val availabilityRequest =
+        necessity.toLocalDate()?.let {
+            it.minusDays(exporter.totalLT.toLong())
+                .plusDays(exporter.availabilityLT.toLong())
+        }
 
     return ShippingInstructions(
         importer = Importer(
@@ -52,7 +59,13 @@ fun OrderResponse.toModel(
         destinationPort = siRequest.destinationPort,
         responsible = this.responsible.name,
         emails = this.responsible.email,
-        orderNumber = number
+        orderNumber = number,
+        availabilityRequest = availabilityRequest,
+        departureRequest = availabilityRequest?.plusDays(exporter.departureLT.toLong()),
+        arrivalRequest = availabilityRequest?.plusDays(exporter.departureLT.toLong())
+            ?.plusDays(exporter.arrivalLT.toLong()),
+        deliveryRequest = necessity.toLocalDate(),
+        brokerReference = brokerReference
     )
 }
 

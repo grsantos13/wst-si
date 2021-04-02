@@ -39,10 +39,9 @@ class SendShippingInstructionsEndpoint(
 
         MailSender.run {
             send(
-                subject = "SI",
                 instructions,
                 request.manufacturerIsExporter,
-                "grodrigueset@gmail.com"
+                request.toList
             )
         }
 

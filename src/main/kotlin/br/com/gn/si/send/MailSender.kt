@@ -11,14 +11,13 @@ class MailSender() {
     companion object {
 
         fun send(
-            subject: String,
-            shippingInstructions: ShippingInstructions,
+            si: ShippingInstructions,
             exporterIsManufacturer: Boolean,
-            vararg to: String
+            to: List<String>
         ) {
             sender().run {
                 to.forEach { addTo(it) }
-                setSubject(subject)
+                subject = "Shipping Instruction - PO ${si.orderNumber} (${si.brokerReference}) / ${si.materials.joinToString(separator = " / ") { "${it.code} - ${it.description}" }}"
                 attach(EmailAttachment().apply {
                     path = "C:\\Users\\Gustavo.Santos\\Documents\\git\\wst\\wstsi\\Pallets Pictures.pdf"
                     disposition = EmailAttachment.ATTACHMENT
@@ -31,7 +30,7 @@ class MailSender() {
                     description = "Shipping Instruction Terms"
                     name = "Shipping instruction terms.pdf"
                 })
-                setHtmlMsg(message(shippingInstructions, exporterIsManufacturer))
+                setHtmlMsg(message(si, exporterIsManufacturer))
                 this.send()
             }
         }
@@ -179,15 +178,15 @@ class MailSender() {
                 </tr>
                 <tr>
                 <td colspan ="6">Availability of Goods Until</td>
-                <td colspan ="6">TBC</td>
+                <td colspan ="6">${si.availabilityRequest ?: "TBC"}</td>
                 </tr>
                 <tr>
                 <td colspan ="6">ETD at Origin Airport /Border /Port</td>
-                <td colspan ="6">TBC</td>
+                <td colspan ="6">${si.departureRequest ?: "TBC"}</td>
                 </tr>
                 <tr>
                 <td colspan ="6">ETA at Destination Airport /Border /Port</td>
-                <td colspan ="6">TBC</td>
+                <td colspan ="6">${si.arrivalRequest ?: "TBC"}</td>
                 </tr>
                 <tr>
                 <td colspan ="6" rowspan = "3">Contact person and full address to sending the original documents</td>

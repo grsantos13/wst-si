@@ -20,6 +20,7 @@ message ShippingInstructionsRequest {
   string freightForwarder = 3;
   string originPort = 4;
   string destinationPort = 5;
+  repeated string to = 6;
 }
 
 message ShippingInstructionsResponse {

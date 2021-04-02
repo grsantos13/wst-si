@@ -1,6 +1,7 @@
 package br.com.gn.si
 
 import br.com.gn.Incoterm
+import java.time.LocalDate
 import javax.persistence.*
 import javax.persistence.CascadeType.PERSIST
 import javax.persistence.CascadeType.REMOVE
@@ -12,7 +13,11 @@ import javax.validation.constraints.Size
 
 @Entity
 class ShippingInstructions(
-    @field:NotBlank @field:Size(min = 10) @Column(nullable = false, unique = true, updatable = false) val orderNumber: String,
+    @field:NotBlank @field:Size(min = 10) @Column(
+        nullable = false,
+        unique = true,
+        updatable = false
+    ) val orderNumber: String,
     @field:NotNull @field:Valid @Embedded val importer: Importer,
     @field:NotNull @field:Valid @Embedded val exporter: Exporter,
     @field:NotNull @field:Valid @Embedded val manufacturer: Manufacturer,
@@ -25,7 +30,12 @@ class ShippingInstructions(
     @field:NotBlank @Column(nullable = false) val originPort: String,
     @field:NotBlank @Column(nullable = false) val destinationPort: String,
     @field:NotBlank @Column(nullable = false) val responsible: String,
-    @field:NotBlank @Column(nullable = false) val emails: String
+    @field:NotBlank @Column(nullable = false) val emails: String,
+    @field:NotBlank @Column(nullable = false) val brokerReference: String,
+    val availabilityRequest: LocalDate?,
+    val departureRequest: LocalDate?,
+    val arrivalRequest: LocalDate?,
+    val deliveryRequest: LocalDate?,
 ) {
     @field:NotNull
     @field:Valid
