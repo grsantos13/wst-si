@@ -36,7 +36,7 @@ class MailSender() {
         }
 
 
-        private fun message(si: ShippingInstructions, exporterIsManufacturer: Boolean): String {
+        fun message(si: ShippingInstructions, exporterIsManufacturer: Boolean): String {
 
             val manufacturer = if (exporterIsManufacturer) {
                 """
@@ -55,7 +55,7 @@ class MailSender() {
                 """.trimIndent()
             }
 
-            val materials = si.materials.joinToString { item ->
+            val materials = si.materials.joinToString(separator = "\n") { item ->
                 """
                     <tr>
                     <td colspan ="1">${item.code}</td>
@@ -70,6 +70,7 @@ class MailSender() {
             }
 
             return """
+                <html>
                 <head>
                     <title>SI</title>
                     <meta charset="UTF-8" />
@@ -216,6 +217,7 @@ class MailSender() {
                 <p> Thank you !</p>
 
                 </body>
+                </html>
                 """.trimIndent()
         }
 

@@ -12,6 +12,7 @@ service SendShippingInstructionsService {
 
 service ReadShippingInstructionsService {
   rpc sent (SentShippingInstructionsRequest) returns (ShippingInstructionsResponse) {}
+  rpc show (SentShippingInstructionsRequest) returns (ShippingInstructionsPageResponse) {}
 }
 
 message ShippingInstructionsRequest {
@@ -29,4 +30,8 @@ message ShippingInstructionsResponse {
 
 message SentShippingInstructionsRequest {
   string orderNumber = 1;
+}
+
+message ShippingInstructionsPageResponse {
+  string page = 1;
 }
