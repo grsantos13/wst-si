@@ -1,1 +1,1 @@
-rootProject.name="wstsi"
+rootProject.name="wst-si"
