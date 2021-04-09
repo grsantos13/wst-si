@@ -28,6 +28,6 @@ grpc:
     max-inbound-message-size: 1024
   channels:
     wstMainRead:
-      address: ${WST_MAIN_CHANNEL:localhost:50049}
+      address: ${WST_MAIN_CHANNEL:`localhost:50049`}
       plaintext: true
       max-retry-attempts: 10
