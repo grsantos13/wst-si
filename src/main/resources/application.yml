@@ -31,3 +31,7 @@ grpc:
       address: ${WST_MAIN_CHANNEL:`localhost:50049`}
       plaintext: true
       max-retry-attempts: 10
+    wstExporter:
+      address: ${WST_EXPORTER_CHANNEL:`localhost:50052`}
+      plaintext: true
+      max-retry-attempts: 10

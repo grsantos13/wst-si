@@ -1,5 +1,6 @@
 package br.com.gn.shared
 
+import br.com.gn.ExporterServiceGrpc
 import br.com.gn.ReadOrderServiceGrpc
 import io.grpc.ManagedChannel
 import io.micronaut.context.annotation.Factory
@@ -12,4 +13,8 @@ class GrpcClientFactory {
     @Singleton
     fun wstMainReadClientStub(@GrpcChannel("wstMainRead") channel: ManagedChannel) =
         ReadOrderServiceGrpc.newBlockingStub(channel)
+
+    @Singleton
+    fun wstExporterClientStub(@GrpcChannel("wstExporter") channel: ManagedChannel) =
+        ExporterServiceGrpc.newBlockingStub(channel)
 }

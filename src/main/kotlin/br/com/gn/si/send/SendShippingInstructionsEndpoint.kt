@@ -12,6 +12,7 @@ import javax.transaction.Transactional
 @Singleton
 class SendShippingInstructionsEndpoint(
     private val readOrderClient: ReadOrderServiceGrpc.ReadOrderServiceBlockingStub,
+    private val exporterClient: ExporterServiceGrpc.ExporterServiceBlockingStub,
     private val service: SiService
 ) : SendShippingInstructionsServiceGrpc.SendShippingInstructionsServiceImplBase() {
 
@@ -20,7 +21,7 @@ class SendShippingInstructionsEndpoint(
         request: ShippingInstructionsRequest,
         responseObserver: StreamObserver<ShippingInstructionsResponse>
     ) {
-        val response: OrdersResponse = readOrderClient.read(
+        val order = readOrderClient.read(
             ReadOrderRequest.newBuilder()
                 .setNumber(request.orderNumber)
                 .setPageable(
@@ -32,9 +33,15 @@ class SendShippingInstructionsEndpoint(
                         .build()
                 )
                 .build()
-        )
+        ).ordersList[0]
 
-        val instructions = response.ordersList[0].toModel(request)
+        val exporter = exporterClient.read(
+            ReadExporterRequest.newBuilder()
+                .setCode(order.exporter.code)
+                .build()
+        ).exportersList[0]
+
+        val instructions = order.toModel(request, exporter)
         service.persist(instructions)
 
         MailSender.run {

@@ -1,5 +1,6 @@
 package br.com.gn.si
 
+import br.com.gn.ExporterResponse
 import br.com.gn.OrderResponse
 import br.com.gn.PaymentTerms
 import br.com.gn.ShippingInstructionsRequest
@@ -7,7 +8,8 @@ import br.com.gn.utils.toBigDecimal
 import br.com.gn.utils.toLocalDate
 
 fun OrderResponse.toModel(
-    siRequest: ShippingInstructionsRequest
+    siRequest: ShippingInstructionsRequest,
+    exporter: ExporterResponse
 ): ShippingInstructions {
     val manufacturer = when {
         siRequest.manufacturerIsExporter -> Manufacturer(
